@@ -50,7 +50,7 @@ def analyze_layout():
     #         )
     #     )
 
-    with open('{}.csv'.format(os.environ.get('FILE')), 'w') as csvfile:
+    with open('result/result_{}.csv'.format(os.environ.get('FILE')), 'w') as csvfile:
         writer = csv.writer(csvfile)
     # for table_idx, table in enumerate(result.tables):
     #     print(
