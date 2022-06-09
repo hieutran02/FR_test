@@ -18,7 +18,10 @@ def format_bounding_box(bounding_box):
 
 def analyze_layout():
     # sample form document
-    formUrl = "https://filestorage4321.blob.core.windows.net/source/{}.pdf".format(os.environ.get('FILE'))
+    if (os.environ.get('FILE')):
+        formUrl = "https://filestorage4321.blob.core.windows.net/source/{}.pdf".format(os.environ.get('FILE'))
+    else:
+        formUrl = input("Please enter the file to be analyzed: ")
     # create your `DocumentAnalysisClient` instance and `AzureKeyCredential` variable
     document_analysis_client = DocumentAnalysisClient(endpoint=endpoint, credential=AzureKeyCredential(key))
 
@@ -50,7 +53,20 @@ def analyze_layout():
     #         )
     #     )
 
-    with open('result/result_{}.csv'.format(os.environ.get('FILE')), 'w') as csvfile:
+    if (os.environ.get('FILE')):
+        resultUrl = 'result/result_{}.csv'.format(os.environ.get('FILE'))
+    else: 
+        isPunc = False
+        file_name = ""
+        for i in range( len(formUrl) - 1, -1, -1):
+            if (formUrl[i] == '/'):
+                break
+            if(isPunc):
+                file_name += formUrl[i]
+            if (formUrl[i] == '.'):
+                isPunc = True
+        resultUrl = "".join(reversed(file_name))
+    with open('result/result_{}.csv'.format(resultUrl), 'w') as csvfile:
         writer = csv.writer(csvfile)
     # for table_idx, table in enumerate(result.tables):
     #     print(
